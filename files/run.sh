@@ -37,7 +37,7 @@ for url in ${urlList[@]}; do
         sed 's/^127.0.0.1 //g' "${tempFile}.tmp5" > "${tempFile}.tmp6"
         sed 's/^0.0.0.0 //g' "${tempFile}.tmp6" > "${tempFile}.tmp7"
         sed 's/^0.0.0.0//g' "${tempFile}.tmp7" > "${tempFile}.tmp8"
-        sed 's/^www.//g' "${tempFile}.tmp7" > "${tempFile}.tmp8"
+        sed 's/^www.//g' "${tempFile}.tmp8" > "${tempFile}.tmp9"
         sed 's/$/,/g' "${tempFile}.tmp9" > "${tempFile}.csv"
 
         rm "$tempFile"
