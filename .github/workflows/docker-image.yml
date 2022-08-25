@@ -13,6 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s) && docker run my-image-name:$(date +%s) -e CF_ID=${{ secrets.CF_ID }} -e CF_AC=${{ secrets.CF_AC }} -e CF_TOKEN=${{ secrets.CF_TOKEN }}
+      run: docker build . --file Dockerfile --tag my-image-name:$(date) && docker run my-image-name:$(date) -e CF_ID=${{ secrets.CF_ID }} -e CF_AC=${{ secrets.CF_AC }} -e CF_TOKEN=${{ secrets.CF_TOKEN }}
       env:
         ARGS: "-av"
