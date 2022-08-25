@@ -5,4 +5,8 @@ RUN apt install wget -y
 RUN apt install curl -y
 RUN apt install jq -y
 
-CMD cd ~/files && bash run.sh
+WORKDIR /root/files
+
+COPY files/run.sh /root/files
+
+CMD bash run.sh
