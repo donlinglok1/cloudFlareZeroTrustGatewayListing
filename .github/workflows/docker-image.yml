@@ -16,3 +16,6 @@ jobs:
       run: docker build . --file Dockerfile --tag my-image-name:latest && docker run my-image-name:latest
       env:
         ARGS: "-av"
+        CF_ID: "${{ secrets.CF_ID }}"
+        CF_AC: "${{ secrets.CF_AC }}"
+        CF_TOKEN: "${{ secrets.CF_TOKEN }}"
