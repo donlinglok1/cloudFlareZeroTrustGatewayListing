@@ -99,6 +99,11 @@ mkdir -p blockedUrl
 mv blockedUrl*.csv blockedUrl
 # rm *.csv
 
+curl -X GET "https://api.cloudflare.com/client/v4/accounts/$CF_ID/gateway/rules" \
+-H "X-Auth-Email: $CF_AC" \
+-H "Authorization: $CF_TOKEN" \
+-H "Content-Type: application/json"
+
 curl -X GET "https://api.cloudflare.com/client/v4/accounts/$CF_ID/gateway/lists" \
 -H "X-Auth-Email: $CF_AC" \
 -H "Authorization: $CF_TOKEN" \
@@ -168,8 +173,6 @@ jq -r -c '.result[].id' gatewayListJson | while read i; do
 done
 sed '$ s/-//g' rules1.json > rules2.json
 rule=$(head -n 1 rules2.json)
-
-#curl -X GET "https://api.cloudflare.com/client/v4/accounts/$CF_ID/gateway/rules"         -H "X-Auth-Email: $CF_AC"         -H "Authorization: $CF_TOKEN"      -H "Content-Type: application/json"
 
 # apply rule
 curl -X PUT "https://api.cloudflare.com/client/v4/accounts/$CF_ID/gateway/rules/fa50027d-b63b-4847-a8f0-981e69c6f249" \
