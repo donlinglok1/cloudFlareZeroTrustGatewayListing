@@ -122,7 +122,7 @@ curl -X PUT "https://api.cloudflare.com/client/v4/accounts/$CF_ID/gateway/rules/
 -H "X-Auth-Email: $CF_AC" \
 -H "Authorization: $CF_TOKEN" \
 -H "Content-Type: application/json" \
---data '{"id": "ac45ab78-28cb-49b6-a5fb-f08e773ba21f","name": "Block Ads and Malicious HTTP","description": "","precedence": 12000,"enabled": true,"action": "block","filters": ["http"],"created_at": "2022-08-25T09:01:27Z","updated_at": "2022-08-25T09:01:27Z","deleted_at": null,"traffic": "http.request.domain == \"hohoho.ho\"","identity": "","device_posture": "","version": 1,"rule_settings": {"block_page_enabled": false,"block_reason": "Cloudflare Zero Trust Blocked! by KT","override_ips": null,"override_host": "","l4override": null,"biso_admin_controls": {"dp": false,"dcp": false,"dd": false,"du": false,"dk": false},"add_headers": {},"ip_categories": false,"check_session": null,"insecure_disable_dnssec_validation": false}}'
+--data '{"id": "ac45ab78-28cb-49b6-a5fb-f08e773ba21f","name": "Block Ads and Malicious HTTP","description": "","precedence": 12000,"enabled": true,"action": "block","filters": ["http"],"created_at": "2022-08-25T09:01:27Z","updated_at": "2022-08-25T09:01:27Z","deleted_at": null,"traffic": "any(http.request.domains[*] == \"hohoho.ho\")","identity": "","device_posture": "","version": 1,"rule_settings": {"block_page_enabled": false,"block_reason": "Cloudflare Zero Trust Blocked! by KT","override_ips": null,"override_host": "","l4override": null,"biso_admin_controls": {"dp": false,"dcp": false,"dd": false,"du": false,"dk": false},"add_headers": {},"ip_categories": false,"check_session": null,"insecure_disable_dnssec_validation": false}}'
 
 # get list lists
 curl -X GET "https://api.cloudflare.com/client/v4/accounts/$CF_ID/gateway/lists" \
@@ -183,9 +183,9 @@ curl -X PUT "https://api.cloudflare.com/client/v4/accounts/$CF_ID/gateway/rules/
 
 # generate the ruleH
 echo -n '' > rulesH1.json
-echo -n 'http.request.domain == \"hohoho.ho\"' | cat - rulesH1.json >temp && mv temp rulesH1.json
+echo -n 'any(http.request.domains[*] == \"hohoho.ho\")' | cat - rulesH1.json >temp && mv temp rulesH1.json
 jq -r -c '.result[].id' gatewayListJson | while read i; do
-    echo -n " and http.request.domain in $"$i"" >> rulesH1.json
+    echo -n " and any(http.request.domains[*] in $"$i")" >> rulesH1.json
 done
 sed '$ s/-//g' rulesH1.json > rulesH2.json
 ruleH=$(head -n 1 rulesH2.json)
