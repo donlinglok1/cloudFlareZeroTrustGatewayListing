@@ -9,24 +9,27 @@ urlList=(
     "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext"
     "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts"
     "https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts"
-    # "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt"
-    # "https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt"
-    # "https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
-    # "https://v.firebog.net/hosts/Prigent-Crypto.txt"
-    # "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts"
-    # "https://bitbucket.org/ethanr/dns-blacklists/raw/8575c9f96e5b4a1308f2f12394abd86d0927a4a0/bad_lists/Mandiant_APT1_Report_Appendix_D.txt"
-    # "https://phishing.army/download/phishing_army_blocklist_extended.txt"
-    # "https://malware-filter.gitlab.io/malware-filter/phishing-filter-hosts.txt"
-    # "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt"
-    # "https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt"
-    # "https://raw.githubusercontent.com/AssoEchap/stalkerware-indicators/master/generated/hosts"
+    "https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt"
+    "https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
+    "https://v.firebog.net/hosts/Prigent-Crypto.txt"
+    "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts"
+    "https://bitbucket.org/ethanr/dns-blacklists/raw/8575c9f96e5b4a1308f2f12394abd86d0927a4a0/bad_lists/Mandiant_APT1_Report_Appendix_D.txt"
+    "https://phishing.army/download/phishing_army_blocklist_extended.txt"
+    "https://malware-filter.gitlab.io/malware-filter/phishing-filter-hosts.txt"
+    "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt"
+    "https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt"
+    "https://raw.githubusercontent.com/AssoEchap/stalkerware-indicators/master/generated/hosts"
+)
+
+urlListAdBlock=(
+    "https://raw.githubusercontent.com/easylist/easylistchina/master/easylistchina.txt"
 )
 
 # download all list and to csv
 touch all.csv
 for url in ${urlList[@]}; do
     filename=$(basename "$url")
-    wget -T 2 -t 2 -O $filename $url
+    wget -T 3 -t 3 -O $filename $url
 
     for tempFile in $filename; do
         # to csv
@@ -40,10 +43,36 @@ for url in ${urlList[@]}; do
         sed 's/^www.//g' "${tempFile}.tmp8" > "${tempFile}.tmp9"
         sed 's/$/,/g' "${tempFile}.tmp9" > "${tempFile}.csv"
 
-        rm "$tempFile"
         rm "${tempFile}.tmp"*
         cat "${tempFile}.csv" >> all.csv
         rm "${tempFile}.csv"
+        # rm "$tempFile"
+    done
+done
+
+# download all adblock list and to csv
+for url in ${urlListAdBlock[@]}; do
+    filename=$(basename "$url")
+    wget -T 3 -t 3 -O $filename $url
+
+    for tempFile in $filename; do
+        startLine="$(grep -n "!----------------------------------Ads-Union----------------------------------!" $tempFile | head -n 1 | cut -d: -f1)"
+        startLine=$((startLine+1))
+        endLine="$(grep -n "!------------------------------------Popups-----------------------------------!" $tempFile | head -n 1 | cut -d: -f1)"
+        endLine=$((endLine-1))
+
+        # to csv
+        sed -n ''$startLine','$endLine'p' < $tempFile > "${tempFile}.tmp2"
+        sed 's/^||//g' "${tempFile}.tmp2" > "${tempFile}.tmp3"
+        sed 's/\^.*$//g' "${tempFile}.tmp3" > "${tempFile}.tmp4"
+        sed 's/^$//g' "${tempFile}.tmp4" > "${tempFile}.tmp5"
+        sed 's/^##.*//g' "${tempFile}.tmp5" > "${tempFile}.tmp6"
+        sed 's/^.*\/.*//g' "${tempFile}.tmp6" > "${tempFile}.tmp7"
+
+        rm "${tempFile}.tmp"*
+        cat "${tempFile}.csv" >> all.csv
+        rm "${tempFile}.csv"
+        # rm "$tempFile"
     done
 done
 
