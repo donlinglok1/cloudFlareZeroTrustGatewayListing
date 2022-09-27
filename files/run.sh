@@ -18,7 +18,7 @@ urlList=(
     "https://malware-filter.gitlab.io/malware-filter/phishing-filter-hosts.txt"
     "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt"
     "https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt"
-    # "https://raw.githubusercontent.com/AssoEchap/stalkerware-indicators/master/generated/hosts"
+    "https://raw.githubusercontent.com/AssoEchap/stalkerware-indicators/master/generated/hosts"
 )
 
 urlListAdBlock=(
