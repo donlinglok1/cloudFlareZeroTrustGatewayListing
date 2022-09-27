@@ -41,7 +41,8 @@ for url in ${urlList[@]}; do
         sed 's/^0.0.0.0 //g' "${tempFile}.tmp6" >"${tempFile}.tmp7"
         sed 's/^0.0.0.0//g' "${tempFile}.tmp7" >"${tempFile}.tmp8"
         sed 's/^www.//g' "${tempFile}.tmp8" >"${tempFile}.tmp9"
-        sed 's/$/,/g' "${tempFile}.tmp9" >"${tempFile}.csv"
+        sed 's/$/,/g' "${tempFile}.tmp9" >"${tempFile}.tmp10"
+        sed 's/\\r//g' "${tempFile}.tmp10" >"${tempFile}.csv"
 
         rm "${tempFile}.tmp"*
         cat "${tempFile}.csv" >>all.csv
@@ -68,6 +69,7 @@ for url in ${urlListAdBlock[@]}; do
         sed 's/^$//g' "${tempFile}.tmp4" >"${tempFile}.tmp5"
         sed 's/^##.*//g' "${tempFile}.tmp5" >"${tempFile}.tmp6"
         sed 's/^.*\/.*//g' "${tempFile}.tmp6" >"${tempFile}.tmp7"
+        sed 's/\\r//g' "${tempFile}.tmp7" >"${tempFile}.csv"
 
         rm "${tempFile}.tmp"*
         cat "${tempFile}.csv" >>all.csv
