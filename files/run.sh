@@ -1,8 +1,8 @@
 # https://firebog.net/
 urlList=(
     "https://adaway.org/hosts.txt"
-#     "https://v.firebog.net/hosts/AdguardDNS.txt"
-#     "https://v.firebog.net/hosts/Admiral.txt"
+    "https://v.firebog.net/hosts/AdguardDNS.txt"
+    "https://v.firebog.net/hosts/Admiral.txt"
 #     "https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt"
 #     "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
     "https://v.firebog.net/hosts/Easylist.txt"
