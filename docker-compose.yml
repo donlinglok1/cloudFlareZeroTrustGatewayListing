@@ -4,5 +4,9 @@ services:
     build: .
     volumes:
       - ./files:/root/files
+    #environment:
+    #  - CF_AC=don.ling.lok@gmail.com
+    #  - CF_ID=
+    #  - CF_TOKEN=Bearer 
     env_file:
       - .env
